@@ -6,7 +6,8 @@ export const createPostController = async (
   req: Request<any, any, IPostInputModel>,
   res: Response<IPostDbModel>,
 ) => {
-  const newPost = await postsRepository.createPost(req.body);
+  // @ts-ignore
+  const newPost = await postsRepository.createPost(req.body, req.blog);
 
   if (newPost) {
     res.status(201).json(newPost);

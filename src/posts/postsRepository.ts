@@ -1,12 +1,10 @@
 import { postCollection } from "../db/mongo-db";
 import { IPostDbModel, IPostInputModel } from "./types";
-import { blogsRepository } from "../blogs/blogsRepository";
 import { v4 as uuidv4 } from "uuid";
+import {IBlogDbModel} from "../blogs/types";
 
 export const postsRepository = {
-  async createPost(post: IPostInputModel) {
-    const blog = await blogsRepository.getBlogById(post.blogId);
-    if (!blog) return null;
+  async createPost(post: IPostInputModel, blog: IBlogDbModel) {
     const newPost: IPostDbModel = {
       ...post,
       id: uuidv4(),
