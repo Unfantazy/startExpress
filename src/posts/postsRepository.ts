@@ -16,13 +16,14 @@ export const postsRepository = {
     };
 
     await postCollection.insertOne(newPost);
-    return newPost;
+    const { _id, ...postWithoutId } = newPost;
+    return postWithoutId;
   },
   async getAllPosts(): Promise<IPostDbModel[]> {
-    return postCollection.find({}).toArray();
+    return postCollection.find({}, { projection: { _id: 0 } }).toArray();
   },
   async getPostById(id: string): Promise<IPostDbModel | null> {
-    return postCollection.findOne({ id });
+    return postCollection.findOne({ id }, { projection: { _id: 0 } });
   },
   async updatePost(id: string, post: IPostInputModel): Promise<boolean> {
     const { matchedCount } = await postCollection.updateOne(

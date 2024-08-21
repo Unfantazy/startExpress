@@ -21,15 +21,18 @@ export const contentValidator = body("content")
   .isLength({ min: 1, max: 1000 })
   .withMessage("more then 1000 or 0");
 
-export const blogIdValidator = body("blogId").isString();
+export const blogIdValidator = body("blogId")
+  .isString()
+  .trim()
+  .isLength({ min: 1, max: 20 });
 
 export const postValidator = [
   adminMiddleware,
 
-  blogIdValidator,
   titleValidator,
   shortDescriptionValidator,
   contentValidator,
+  blogIdValidator,
 
-  inputCheckErrorsMiddleware,
+  inputCheckErrorsMiddleware(false),
 ];
