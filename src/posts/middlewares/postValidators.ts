@@ -1,34 +1,35 @@
 import { body } from "express-validator";
-import { inputCheckErrorsMiddleware } from "../../global-middlewares/inputCheckErrorsMiddleware";
 import { adminMiddleware } from "../../global-middlewares/admin-middleware";
+import { inputCheckErrorsMiddleware } from "../../global-middlewares/inputCheckErrorsMiddleware";
 
-export const nameValidator = body("name")
+export const titleValidator = body("title")
   .isString()
   .withMessage("not string")
   .trim()
-  .isLength({ min: 1, max: 15 })
-  .withMessage("more then 15 or 1");
-export const descriptionValidator = body("description")
+  .isLength({ min: 1, max: 30 })
+  .withMessage("more then 30 or 1");
+export const shortDescriptionValidator = body("shortDescription")
   .isString()
   .withMessage("not string")
   .trim()
-  .isLength({ min: 1, max: 500 })
-  .withMessage("more then 500 or 0");
-export const websiteUrlValidator = body("websiteUrl")
-  .isString()
-  .withMessage("not string")
-  .trim()
-  .isURL()
-  .withMessage("not url")
   .isLength({ min: 1, max: 100 })
   .withMessage("more then 100 or 0");
+export const contentValidator = body("content")
+  .isString()
+  .withMessage("not string")
+  .trim()
+  .isLength({ min: 1, max: 1000 })
+  .withMessage("more then 1000 or 0");
 
-export const blogValidators = [
+export const blogIdValidator = body("blogId").isString();
+
+export const postValidator = [
   adminMiddleware,
 
-  nameValidator,
-  descriptionValidator,
-  websiteUrlValidator,
+  blogIdValidator,
+  titleValidator,
+  shortDescriptionValidator,
+  contentValidator,
 
   inputCheckErrorsMiddleware,
 ];

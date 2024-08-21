@@ -12,13 +12,15 @@ export const blogsRepository = {
     };
 
     await blogCollection.insertOne(newBlog);
-    return newBlog;
+
+    const { _id, ...blogWithoutId } = newBlog;
+    return blogWithoutId;
   },
   async getAllBlogs(): Promise<IBlogDbModel[]> {
-    return blogCollection.find({}).toArray();
+    return blogCollection.find({}, { projection: { _id: 0 } }).toArray();
   },
   async getBlogById(id: string): Promise<IBlogDbModel | null> {
-    return blogCollection.findOne({ id });
+    return blogCollection.findOne({ id }, { projection: { _id: 0 } });
   },
   async updateBlog(id: string, blog: IBlogInputModel): Promise<boolean> {
     const { matchedCount } = await blogCollection.updateOne(
@@ -30,13 +32,5 @@ export const blogsRepository = {
   async deleteBlog(id: string): Promise<boolean> {
     const { deletedCount } = await blogCollection.deleteOne({ id });
     return deletedCount === 1;
-  },
-  mapBlog(blog: IBlogDbModel) {
-    return {
-      ...blog,
-      id: uuidv4(),
-      createdAt: new Date().toISOString(),
-      isMembership: false,
-    };
   },
 };
