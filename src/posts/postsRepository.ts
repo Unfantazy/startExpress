@@ -27,8 +27,8 @@ export const postsRepository = {
   async getAllPosts(
     query: QueryType,
   ): Promise<IItemsWithPagination<IPostViewModel>> {
-    const defaultQueryParams = getDefaultQueryParams(query);
-    const { pageSize, pageNumber, sortBy, sortDirection } = defaultQueryParams;
+    const { pageSize, pageNumber, sortBy, sortDirection } =
+      getDefaultQueryParams(query);
 
     const totalCount = await postCollection.countDocuments({});
 
@@ -44,7 +44,7 @@ export const postsRepository = {
       page: pageNumber,
       pageSize: pageSize,
       totalCount,
-      items,
+      items: items.map(this.mapToOutput),
     };
   },
   async getPostById(id: string): Promise<IPostDbModel | null> {
@@ -62,10 +62,27 @@ export const postsRepository = {
     return deletedCount === 1;
   },
 
-  async getAllPostsForCurrentBlog(blogId: string): Promise<IPostDbModel[]> {
-    return postCollection
-      .find({ blogId }, { projection: { _id: 0 } })
-      .toArray();
+  async getAllPostsForCurrentBlog(blogId: string, query: QueryType): Promise<IItemsWithPagination<IPostViewModel>> {
+
+    const { pageSize, pageNumber, sortBy, sortDirection } =
+        getDefaultQueryParams(query);
+
+    const totalCount = await postCollection.countDocuments({});
+
+    const items = await postCollection
+        .find({ blogId }, { projection: { _id: 0 } })
+        .sort({ [sortBy]: sortDirection === "asc" ? 1 : -1 })
+        .skip((+pageNumber - 1) * +pageSize)
+        .limit(+pageSize)
+        .toArray();
+
+    return {
+      pagesCount: Math.ceil(totalCount / pageSize),
+      page: pageNumber,
+      pageSize: pageSize,
+      totalCount,
+      items: items.map(this.mapToOutput),
+    };
   },
 
   mapToOutput(post: IPostDbModel): IPostViewModel {

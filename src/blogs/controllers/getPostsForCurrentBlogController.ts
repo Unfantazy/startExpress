@@ -13,6 +13,6 @@ export const getPostsForCurrentBlogController = async (
     return;
   }
 
-  const postsForBlog = await postsRepository.getAllPostsForCurrentBlog(blog.id);
+  const postsForBlog = await postsRepository.getAllPostsForCurrentBlog(blog.id, req.query);
   res.status(200).json(postsForBlog);
 };
