@@ -8,7 +8,8 @@ export type IPostInputModel = {
 };
 
 export type IPostDbModel = {
-  _id: ObjectId;
+  _id?: ObjectId;
+  id: string;
   title: string;
   shortDescription: string;
   content: string;

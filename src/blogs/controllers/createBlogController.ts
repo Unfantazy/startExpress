@@ -7,6 +7,7 @@ export const createBlogController = async (
   res: Response<IBlogViewModel>,
 ) => {
   const newBlog = await blogsRepository.createBlog(req.body);
+  console.log('newBlog', newBlog)
 
   res.status(201).json(newBlog);
 };

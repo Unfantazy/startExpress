@@ -2,9 +2,9 @@ import { postCollection } from "../db/mongo-db";
 import { IPostDbModel, IPostInputModel, IPostViewModel } from "./types";
 import { QueryType } from "../blogs/types";
 import { getDefaultQueryParams } from "../helpers";
-import { ObjectId } from "mongodb";
 import { IItemsWithPagination } from "../input-output-types/output-errors-type";
 import { blogsRepository } from "../blogs/blogsRepository";
+import { v4 as uuidv4 } from "uuid";
 
 export const postsRepository = {
   async createPost(post: IPostInputModel, blogId: string) {
@@ -14,15 +14,15 @@ export const postsRepository = {
     }
     const newPost: IPostDbModel = {
       ...post,
-      _id: new ObjectId(),
+      id: uuidv4(),
       createdAt: new Date().toISOString(),
       blogName: blog.name,
       blogId: blog.id,
     };
 
-    const mappedNewPost = this.mapToOutput(newPost);
-    await postCollection.insertOne(mappedNewPost);
-    return mappedNewPost;
+    await postCollection.insertOne(newPost);
+    const { _id, ...postWithoutId } = newPost;
+    return postWithoutId;
   },
   async getAllPosts(
     query: QueryType,
@@ -72,7 +72,6 @@ export const postsRepository = {
     const { _id, ...restPost } = post;
     return {
       ...restPost,
-      id: _id.toString(),
     };
   },
 };

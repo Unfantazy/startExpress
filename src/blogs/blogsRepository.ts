@@ -5,7 +5,7 @@ import {
   IBlogViewModel,
   QueryType,
 } from "./types";
-import { ObjectId } from "mongodb";
+import { v4 as uuidv4 } from "uuid";
 import { getDefaultQueryParams } from "../helpers";
 import { IItemsWithPagination } from "../input-output-types/output-errors-type";
 
@@ -13,14 +13,15 @@ export const blogsRepository = {
   async createBlog(blog: IBlogInputModel) {
     const newBlog: IBlogDbModel = {
       ...blog,
-      _id: new ObjectId(),
+      id: uuidv4(),
       createdAt: new Date().toISOString(),
       isMembership: false,
     };
 
-    const mappedNewBlog = this.mapToOutput(newBlog);
-    await blogCollection.insertOne(mappedNewBlog);
-    return mappedNewBlog;
+    await blogCollection.insertOne(newBlog);
+    const { _id, ...blogWithoutId } = newBlog;
+
+    return blogWithoutId;
   },
   async getAllBlogs(
     query: QueryType,
@@ -72,7 +73,6 @@ export const blogsRepository = {
     const { _id, ...restBlog } = blog;
     return {
       ...restBlog,
-      id: _id.toString(),
     };
   },
 };

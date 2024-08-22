@@ -1,4 +1,4 @@
-import {ObjectId, SortDirection} from "mongodb";
+import { ObjectId, SortDirection } from "mongodb";
 
 export type IBlogInputModel = {
   name: string; // max 15
@@ -16,7 +16,8 @@ export type IBlogViewModel = {
 };
 
 export type IBlogDbModel = {
-  _id: ObjectId;
+  _id?: ObjectId;
+  id: string;
   name: string; // max 15
   description: string; // max 500
   websiteUrl: string; // max 100 ^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$,
