@@ -16,8 +16,11 @@ export const blogsRepository = {
     const { _id, ...blogWithoutId } = newBlog;
     return blogWithoutId;
   },
-  async getAllBlogs(): Promise<IBlogDbModel[]> {
-    return blogCollection.find({}, { projection: { _id: 0 } }).toArray();
+  async getAllBlogs(searchNameTerm: string): Promise<IBlogDbModel[]> {
+    const query = searchNameTerm
+      ? { name: { $regex: searchNameTerm, $options: "i" } }
+      : {};
+    return blogCollection.find(query, { projection: { _id: 0 } }).toArray();
   },
   async getBlogById(id: string): Promise<IBlogDbModel | null> {
     return blogCollection.findOne({ id }, { projection: { _id: 0 } });
