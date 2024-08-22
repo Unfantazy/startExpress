@@ -1,7 +1,7 @@
 import { postCollection } from "../db/mongo-db";
 import { IPostDbModel, IPostInputModel } from "./types";
 import { v4 as uuidv4 } from "uuid";
-import {IBlogDbModel} from "../blogs/types";
+import { IBlogDbModel } from "../blogs/types";
 
 export const postsRepository = {
   async createPost(post: IPostInputModel, blog: IBlogDbModel) {
@@ -33,5 +33,11 @@ export const postsRepository = {
   async deletePost(id: string): Promise<boolean> {
     const { deletedCount } = await postCollection.deleteOne({ id });
     return deletedCount === 1;
+  },
+
+  async getAllPostsForCurrentBlog(blogId: string): Promise<IPostDbModel[]> {
+    return postCollection
+      .find({ blogId }, { projection: { _id: 0 } })
+      .toArray();
   },
 };

@@ -6,6 +6,9 @@ import { updateBlogController } from "./controllers/updateBlogController";
 import { deleteBlogController } from "./controllers/deleteBlogController";
 import { blogValidators } from "./middlewares/blogValidators";
 import { adminMiddleware } from "../global-middlewares/admin-middleware";
+import { createPostForCurrentBlogController } from "./controllers/createPostForCurrentBlogController";
+import { postValidatorForBlog } from "../posts/middlewares/postValidators";
+import { getPostsForCurrentBlogController } from "./controllers/getPostsForCurrentBlogController";
 
 export const blogsRouter = Router();
 
@@ -14,4 +17,11 @@ blogsRouter
   .post("/", ...blogValidators, createBlogController)
   .get("/:id", getBlogByIdController)
   .put("/:id", ...blogValidators, updateBlogController)
-  .delete("/:id", adminMiddleware, deleteBlogController);
+  .delete("/:id", adminMiddleware, deleteBlogController)
+
+  .post(
+    "/:blogId/posts",
+    ...postValidatorForBlog,
+    createPostForCurrentBlogController,
+  )
+  .get("/:blogId/posts", getPostsForCurrentBlogController);

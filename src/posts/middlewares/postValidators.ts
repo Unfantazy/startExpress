@@ -31,10 +31,6 @@ export const contentValidator = body("content")
   .isLength({ min: 1, max: 1000 })
   .withMessage("more then 1000 or 0");
 
-export const blogIdValidator = body("blogId")
-  .trim()
-  .isLength({ min: 1, max: 50 });
-
 export const postValidator = [
   adminMiddleware,
 
@@ -42,6 +38,16 @@ export const postValidator = [
   shortDescriptionValidator,
   contentValidator,
   blogExistsValidator,
+
+  inputCheckErrorsMiddleware(false),
+];
+
+export const postValidatorForBlog = [
+  adminMiddleware,
+
+  titleValidator,
+  shortDescriptionValidator,
+  contentValidator,
 
   inputCheckErrorsMiddleware(false),
 ];
