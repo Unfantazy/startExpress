@@ -62,19 +62,21 @@ export const postsRepository = {
     return deletedCount === 1;
   },
 
-  async getAllPostsForCurrentBlog(blogId: string, query: QueryType): Promise<IItemsWithPagination<IPostViewModel>> {
-
+  async getAllPostsForCurrentBlog(
+    blogId: string,
+    query: QueryType,
+  ): Promise<IItemsWithPagination<IPostViewModel>> {
     const { pageSize, pageNumber, sortBy, sortDirection } =
-        getDefaultQueryParams(query);
+      getDefaultQueryParams(query);
 
-    const totalCount = await postCollection.countDocuments({});
+    const totalCount = await postCollection.countDocuments({ blogId });
 
     const items = await postCollection
-        .find({ blogId }, { projection: { _id: 0 } })
-        .sort({ [sortBy]: sortDirection === "asc" ? 1 : -1 })
-        .skip((+pageNumber - 1) * +pageSize)
-        .limit(+pageSize)
-        .toArray();
+      .find({ blogId }, { projection: { _id: 0 } })
+      .sort({ [sortBy]: sortDirection === "asc" ? 1 : -1 })
+      .skip((+pageNumber - 1) * +pageSize)
+      .limit(+pageSize)
+      .toArray();
 
     return {
       pagesCount: Math.ceil(totalCount / pageSize),

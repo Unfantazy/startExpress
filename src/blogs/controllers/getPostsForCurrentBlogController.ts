@@ -1,11 +1,12 @@
 import { Response, Request } from "express";
 import { blogsRepository } from "../blogsRepository";
 import { postsRepository } from "../../posts/postsRepository";
-import { IPostDbModel, IPostInputModel } from "../../posts/types";
+import { IPostInputModel, IPostViewModel } from "../../posts/types";
+import { IItemsWithPagination } from "../../input-output-types/output-errors-type";
 
 export const getPostsForCurrentBlogController = async (
   req: Request<any, any, IPostInputModel>,
-  res: Response<IPostDbModel[]>,
+  res: Response<IItemsWithPagination<IPostViewModel>>,
 ) => {
   const blog = await blogsRepository.getBlogById(req.params.blogId);
   if (!blog) {
@@ -13,6 +14,9 @@ export const getPostsForCurrentBlogController = async (
     return;
   }
 
-  const postsForBlog = await postsRepository.getAllPostsForCurrentBlog(blog.id, req.query);
+  const postsForBlog = await postsRepository.getAllPostsForCurrentBlog(
+    blog.id,
+    req.query,
+  );
   res.status(200).json(postsForBlog);
 };
