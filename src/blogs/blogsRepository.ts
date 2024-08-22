@@ -1,28 +1,62 @@
 import { blogCollection } from "../db/mongo-db";
-import { IBlogDbModel, IBlogInputModel } from "./types";
-import { v4 as uuidv4 } from "uuid";
+import {
+  IBlogDbModel,
+  IBlogInputModel,
+  IBlogViewModel,
+  IBlogWithPagination,
+  QueryType,
+} from "./types";
+import { ObjectId } from "mongodb";
+import { getDefaultQueryParams } from "../helpers";
 
 export const blogsRepository = {
   async createBlog(blog: IBlogInputModel) {
     const newBlog: IBlogDbModel = {
       ...blog,
-      id: uuidv4(),
+      _id: new ObjectId(),
       createdAt: new Date().toISOString(),
       isMembership: false,
     };
 
-    await blogCollection.insertOne(newBlog);
-
-    const { _id, ...blogWithoutId } = newBlog;
-    return blogWithoutId;
+    const mappedNewBlog = this.mapToOutput(newBlog);
+    await blogCollection.insertOne(mappedNewBlog);
+    return mappedNewBlog;
   },
-  async getAllBlogs(searchNameTerm: string): Promise<IBlogDbModel[]> {
-    const query = searchNameTerm
+  async getAllBlogs(query: QueryType): Promise<IBlogWithPagination> {
+    const {
+      searchNameTerm,
+      sortDirection,
+      sortBy,
+      pageNumber,
+      pageSize,
+    } = getDefaultQueryParams(query);
+
+    const search = searchNameTerm
       ? { name: { $regex: searchNameTerm, $options: "i" } }
       : {};
-    return blogCollection.find(query, { projection: { _id: 0 } }).toArray();
+
+    const filter = {
+      ...search,
+    };
+
+    const totalCount = await blogCollection.countDocuments(filter);
+
+    const items = (await blogCollection
+      .find(filter)
+      .sort({ [sortBy]: sortDirection === "asc" ? 1 : -1 })
+      .skip((+pageNumber - 1) * +pageSize)
+      .limit(+pageSize)
+      .toArray()) as IBlogDbModel[];
+
+    return {
+      pagesCount: Math.ceil(totalCount / pageSize),
+      page: pageNumber,
+      pageSize: pageSize,
+      totalCount,
+      items: items.map(this.mapToOutput),
+    };
   },
-  async getBlogById(id: string): Promise<IBlogDbModel | null> {
+  async getBlogById(id: string): Promise<IBlogViewModel | null> {
     return blogCollection.findOne({ id }, { projection: { _id: 0 } });
   },
   async updateBlog(id: string, blog: IBlogInputModel): Promise<boolean> {
@@ -35,5 +69,13 @@ export const blogsRepository = {
   async deleteBlog(id: string): Promise<boolean> {
     const { deletedCount } = await blogCollection.deleteOne({ id });
     return deletedCount === 1;
+  },
+
+  mapToOutput(blog: IBlogDbModel): IBlogViewModel {
+    const { _id, ...restBlog } = blog;
+    return {
+      ...restBlog,
+      id: _id.toString(),
+    };
   },
 };
