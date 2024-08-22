@@ -8,7 +8,16 @@ export type IPostInputModel = {
 };
 
 export type IPostDbModel = {
-  _id?: ObjectId;
+  _id: ObjectId;
+  title: string;
+  shortDescription: string;
+  content: string;
+  blogId: string;
+  blogName: string;
+  createdAt: string;
+};
+
+export type IPostViewModel = {
   id: string;
   title: string;
   shortDescription: string;

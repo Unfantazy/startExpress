@@ -3,11 +3,11 @@ import {
   IBlogDbModel,
   IBlogInputModel,
   IBlogViewModel,
-  IBlogWithPagination,
   QueryType,
 } from "./types";
 import { ObjectId } from "mongodb";
 import { getDefaultQueryParams } from "../helpers";
+import { IItemsWithPagination } from "../input-output-types/output-errors-type";
 
 export const blogsRepository = {
   async createBlog(blog: IBlogInputModel) {
@@ -22,14 +22,11 @@ export const blogsRepository = {
     await blogCollection.insertOne(mappedNewBlog);
     return mappedNewBlog;
   },
-  async getAllBlogs(query: QueryType): Promise<IBlogWithPagination> {
-    const {
-      searchNameTerm,
-      sortDirection,
-      sortBy,
-      pageNumber,
-      pageSize,
-    } = getDefaultQueryParams(query);
+  async getAllBlogs(
+    query: QueryType,
+  ): Promise<IItemsWithPagination<IBlogViewModel>> {
+    const { searchNameTerm, sortDirection, sortBy, pageNumber, pageSize } =
+      getDefaultQueryParams(query);
 
     const search = searchNameTerm
       ? { name: { $regex: searchNameTerm, $options: "i" } }

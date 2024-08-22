@@ -1,18 +1,17 @@
 import { Response, Request } from "express";
-import { blogsRepository } from "../blogsRepository";
 import { postsRepository } from "../../posts/postsRepository";
-import { IPostDbModel, IPostInputModel } from "../../posts/types";
+import { IPostInputModel, IPostViewModel } from "../../posts/types";
 
 export const createPostForCurrentBlogController = async (
   req: Request<any, any, IPostInputModel>,
-  res: Response<IPostDbModel>,
+  res: Response<IPostViewModel>,
 ) => {
-  const blog = await blogsRepository.getBlogById(req.params.blogId);
-  if (blog) {
-    const newPost = await postsRepository.createPost(req.body, blog);
+  const newPost = await postsRepository.createPost(req.body, req.params.blogId);
+
+  if (newPost) {
     res.status(201).json(newPost);
-    return
+    return;
   }
 
-  res.sendStatus(404)
+  res.sendStatus(404);
 };

@@ -24,17 +24,9 @@ export type IBlogDbModel = {
   isMembership: boolean;
 };
 
-export type IBlogWithPagination = {
-  pagesCount: number;
-  page: number;
-  pageSize: number;
-  totalCount: number;
-  items: IBlogViewModel[];
-};
-
 export type QueryType = {
   sortBy?: string;
-  searchNameTerm?: string;
+  searchNameTerm?: string | null;
   sortDirection?: SortDirection;
   pageNumber?: string;
   pageSize?: string;

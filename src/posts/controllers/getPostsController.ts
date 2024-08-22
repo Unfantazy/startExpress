@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import { postsRepository } from "../postsRepository";
-import { IPostDbModel, IPostInputModel } from "../types";
+import { IPostInputModel, IPostViewModel } from "../types";
+import { IItemsWithPagination } from "../../input-output-types/output-errors-type";
 
 export const getPostsController = async (
   req: Request<any, any, IPostInputModel>,
-  res: Response<IPostDbModel[]>,
+  res: Response<IItemsWithPagination<IPostViewModel>>,
 ) => {
-  const posts = await postsRepository.getAllPosts();
+  const posts = await postsRepository.getAllPosts(req.query);
 
   res.status(200).json(posts);
 };
