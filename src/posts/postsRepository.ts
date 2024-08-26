@@ -3,12 +3,12 @@ import { IPostDbModel, IPostInputModel, IPostViewModel } from "./types";
 import { QueryType } from "../blogs/types";
 import { getDefaultQueryParams } from "../helpers";
 import { IItemsWithPagination } from "../input-output-types/output-errors-type";
-import { blogsRepository } from "../blogs/blogsRepository";
 import { v4 as uuidv4 } from "uuid";
+import { blogsQueryRepository } from "../blogs/blogsQueryRepository";
 
 export const postsRepository = {
   async createPost(post: IPostInputModel, blogId: string) {
-    const blog = await blogsRepository.getBlogById(blogId);
+    const blog = await blogsQueryRepository.getBlogById(blogId);
     if (!blog) {
       return null;
     }

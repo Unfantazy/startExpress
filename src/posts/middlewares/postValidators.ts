@@ -1,11 +1,11 @@
 import { body } from "express-validator";
 import { adminMiddleware } from "../../global-middlewares/admin-middleware";
 import { inputCheckErrorsMiddleware } from "../../global-middlewares/inputCheckErrorsMiddleware";
-import { blogsRepository } from "../../blogs/blogsRepository";
+import { blogsQueryRepository } from "../../blogs/blogsQueryRepository";
 
 export const blogExistsValidator = body("blogId")
   .custom(async (blogId, { req }) => {
-    const blog = await blogsRepository.getBlogById(blogId);
+    const blog = await blogsQueryRepository.getBlogById(blogId);
     if (!blog) {
       return Promise.reject("Blog not found");
     }
