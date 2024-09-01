@@ -5,7 +5,7 @@ import { getBlogByIdController } from "./controllers/getBlogByIdController";
 import { updateBlogController } from "./controllers/updateBlogController";
 import { deleteBlogController } from "./controllers/deleteBlogController";
 import { blogValidators } from "./middlewares/blogValidators";
-import { adminMiddleware } from "../global-middlewares/admin-middleware";
+import { adminMiddleware } from "../../global-middlewares/admin-middleware";
 import { createPostForCurrentBlogController } from "./controllers/createPostForCurrentBlogController";
 import { postValidatorForBlog } from "../posts/middlewares/postValidators";
 import { getPostsForCurrentBlogController } from "./controllers/getPostsForCurrentBlogController";

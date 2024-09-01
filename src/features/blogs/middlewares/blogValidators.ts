@@ -1,6 +1,6 @@
 import { body } from "express-validator";
-import { inputCheckErrorsMiddleware } from "../../global-middlewares/inputCheckErrorsMiddleware";
-import { adminMiddleware } from "../../global-middlewares/admin-middleware";
+import { inputCheckErrorsMiddleware } from "../../../global-middlewares/inputCheckErrorsMiddleware";
+import { adminMiddleware } from "../../../global-middlewares/admin-middleware";
 
 export const nameValidator = body("name")
   .isString()

@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import { postsRepository } from "../postsRepository";
+import { postsRepository } from "../infrastructure/postsRepository";
 import { IPostInputModel, IPostViewModel } from "../types";
-import { IItemsWithPagination } from "../../input-output-types/output-errors-type";
+import { IItemsWithPagination } from "../../../input-output-types/output-errors-type";
+import { HttpCodes } from "../../../common/httpCodes";
 
 export const getPostsController = async (
   req: Request<any, any, IPostInputModel>,
@@ -9,5 +10,5 @@ export const getPostsController = async (
 ) => {
   const posts = await postsRepository.getAllPosts(req.query);
 
-  res.status(200).json(posts);
+  res.status(HttpCodes.Success).json(posts);
 };

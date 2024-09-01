@@ -1,10 +1,10 @@
-import { postCollection } from "../db/mongo-db";
-import { IPostDbModel, IPostInputModel, IPostViewModel } from "./types";
-import { QueryType } from "../blogs/types";
-import { getDefaultQueryParams } from "../helpers";
-import { IItemsWithPagination } from "../input-output-types/output-errors-type";
+import { postCollection } from "../../../db/mongo-db";
+import { IPostDbModel, IPostInputModel, IPostViewModel } from "../types";
+import { QueryType } from "../../blogs/types";
+import { getDefaultQueryParams } from "../../../common/helpers";
+import { IItemsWithPagination } from "../../../input-output-types/output-errors-type";
 import { v4 as uuidv4 } from "uuid";
-import { blogsQueryRepository } from "../blogs/blogsQueryRepository";
+import { blogsQueryRepository } from "../../blogs/infrastructure/blogsQueryRepository";
 
 export const postsRepository = {
   async createPost(post: IPostInputModel, blogId: string) {

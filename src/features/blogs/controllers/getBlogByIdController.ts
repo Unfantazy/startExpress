@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { IBlogInputModel, IBlogViewModel } from "../types";
-import { blogsQueryRepository } from "../blogsQueryRepository";
+import { blogsQueryRepository } from "../infrastructure/blogsQueryRepository";
+import { HttpCodes } from "../../../common/httpCodes";
 
 export const getBlogByIdController = async (
   req: Request<any, any, IBlogInputModel>,
@@ -8,9 +9,9 @@ export const getBlogByIdController = async (
 ) => {
   const blog = await blogsQueryRepository.getBlogById(req.params.id);
   if (blog) {
-    res.status(200).json(blog);
+    res.status(HttpCodes.Success).json(blog);
     return;
   }
 
-  res.sendStatus(404);
+  res.sendStatus(HttpCodes.NotFound);
 };

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { IBlogInputModel } from "../types";
-import { blogsRepository } from "../blogsRepository";
+import { blogsRepository } from "../infrastructure/blogsRepository";
+import { HttpCodes } from "../../../common/httpCodes";
 
 export const updateBlogController = async (
   req: Request<any, any, IBlogInputModel>,
@@ -9,8 +10,8 @@ export const updateBlogController = async (
   const isUpdated = await blogsRepository.updateBlog(req.params.id, req.body);
 
   if (isUpdated) {
-    res.sendStatus(204);
+    res.sendStatus(HttpCodes.NoContent);
   } else {
-    res.sendStatus(404);
+    res.sendStatus(HttpCodes.NotFound);
   }
 };

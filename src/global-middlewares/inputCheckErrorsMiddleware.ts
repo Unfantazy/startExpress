@@ -1,6 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import { validationResult } from "express-validator";
 import { OutputErrorsType } from "../input-output-types/output-errors-type";
+import { HttpCodes } from "../common/httpCodes";
 
 export const inputCheckErrorsMiddleware =
   (onlyFirstError = true) =>
@@ -12,7 +13,7 @@ export const inputCheckErrorsMiddleware =
         msg: string;
       }[];
 
-      res.status(400).json({
+      res.status(HttpCodes.BadRequest).json({
         errorsMessages: errors.map((error) => ({
           field: error.path,
           message: error.msg,

@@ -1,7 +1,7 @@
 import { body } from "express-validator";
-import { adminMiddleware } from "../../global-middlewares/admin-middleware";
-import { inputCheckErrorsMiddleware } from "../../global-middlewares/inputCheckErrorsMiddleware";
-import { blogsQueryRepository } from "../../blogs/blogsQueryRepository";
+import { adminMiddleware } from "../../../global-middlewares/admin-middleware";
+import { inputCheckErrorsMiddleware } from "../../../global-middlewares/inputCheckErrorsMiddleware";
+import { blogsQueryRepository } from "../../blogs/infrastructure/blogsQueryRepository";
 
 export const blogExistsValidator = body("blogId")
   .custom(async (blogId, { req }) => {

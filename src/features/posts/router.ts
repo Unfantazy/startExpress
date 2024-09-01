@@ -3,7 +3,7 @@ import { getPostsController } from "./controllers/getPostsController";
 import { getPostByIdController } from "./controllers/getPostByIdController";
 import { updatePostController } from "./controllers/updatePostController";
 import { deletePostController } from "./controllers/deletePostController";
-import { adminMiddleware } from "../global-middlewares/admin-middleware";
+import { adminMiddleware } from "../../global-middlewares/admin-middleware";
 import { createPostController } from "./controllers/createPostController";
 import {postValidator} from "./middlewares/postValidators";
 

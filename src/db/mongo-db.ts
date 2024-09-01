@@ -1,6 +1,6 @@
 import { SETTINGS } from "../settings";
 import { Collection, Db, MongoClient } from "mongodb";
-import { IBlogViewModel } from "../blogs/types";
+import { IBlogViewModel } from "../features/blogs/types";
 
 export const client: MongoClient = new MongoClient(SETTINGS.MONGO_URL);
 export const db: Db = client.db(SETTINGS.DB_NAME);

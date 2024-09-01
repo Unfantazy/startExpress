@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { postsRepository } from "../postsRepository";
+import { postsRepository } from "../infrastructure/postsRepository";
 import { IPostDbModel, IPostInputModel } from "../types";
+import { HttpCodes } from "../../../common/httpCodes";
 
 export const getPostByIdController = async (
   req: Request<any, any, IPostInputModel>,
@@ -8,9 +9,9 @@ export const getPostByIdController = async (
 ) => {
   const post = await postsRepository.getPostById(req.params.id);
   if (post) {
-    res.status(200).json(post);
+    res.status(HttpCodes.Success).json(post);
     return;
   }
 
-  res.sendStatus(404);
+  res.sendStatus(HttpCodes.NotFound);
 };

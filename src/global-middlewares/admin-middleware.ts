@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { SETTINGS } from "../settings";
+import { HttpCodes } from "../common/httpCodes";
 
 export const fromBase64ToUTF8 = (code: string) => {
   return Buffer.from(code, "base64").toString("utf8");
@@ -17,7 +18,7 @@ export const adminMiddleware = (
   const codedAuth = fromUTF8ToBase64(SETTINGS.ADMIN);
 
   if (!auth || !auth.includes("Basic") || auth.slice(6) !== codedAuth) {
-    res.status(401).json({});
+    res.status(HttpCodes.Unauthorized).json({});
     return;
   }
 
