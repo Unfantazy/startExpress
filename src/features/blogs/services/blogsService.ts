@@ -12,7 +12,7 @@ export const blogsService = {
     };
     await blogsRepository.createBlog(newBlog);
 
-    const { _id, ...blogWithoutId } = newBlog;
-    return blogWithoutId;
+    return newBlog.id
   },
+
 };
