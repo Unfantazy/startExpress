@@ -1,4 +1,4 @@
-import { QueryType } from "../features/blogs/types";
+import { QueryType } from "./types";
 
 export const getDefaultQueryParams = (query: QueryType) => {
   return {

@@ -1,6 +1,6 @@
 import { IBlogDbModel, IBlogViewModel, QueryType } from "../types";
 import { IItemsWithPagination } from "../../../input-output-types/output-errors-type";
-import { getDefaultQueryParams } from "../../../common/helpers";
+import { getDefaultQueryParams } from "../helpers";
 import { blogCollection } from "../../../db/mongo-db";
 
 export const blogsQueryRepository = {

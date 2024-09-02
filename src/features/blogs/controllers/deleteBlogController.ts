@@ -7,7 +7,6 @@ export const deleteBlogController = async (
   req: Request<any, any, IBlogInputModel>,
   res: Response<any>,
 ) => {
-  debugger;
   const isDeleted = await blogsRepository.deleteBlog(req.params.id);
 
   if (isDeleted) {
