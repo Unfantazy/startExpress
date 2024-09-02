@@ -12,7 +12,7 @@ export const createBlogController = async (
   const blog = await blogsQueryRepository.getBlogById(id);
 
   if (blog) {
-    res.status(HttpCodes.Success).json(blog);
+    res.status(HttpCodes.Created).json(blog);
     return;
   }
 

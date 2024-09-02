@@ -14,17 +14,10 @@ export const inputCheckErrorsMiddleware =
       }[];
 
       res.status(HttpCodes.BadRequest).json({
-        errorsMessages: !onlyFirstError
-          ? errors.map((error) => ({
-              field: error.path,
-              message: error.msg,
-            }))
-          : [
-              {
-                field: errors[0].path,
-                message: errors[0].msg,
-              },
-            ],
+        errorsMessages: errors.map((error) => ({
+          field: error.path,
+          message: error.msg,
+        })),
       });
       return;
     }

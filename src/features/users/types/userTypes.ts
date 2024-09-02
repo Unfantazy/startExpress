@@ -30,6 +30,7 @@ export type IUserDbModel = {
   login: string;
   email: string;
   createdAt: string;
+  password: string
 };
 
 export type IUserInputModel = {

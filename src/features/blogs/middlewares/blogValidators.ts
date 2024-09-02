@@ -30,5 +30,5 @@ export const blogValidators = [
   descriptionValidator,
   websiteUrlValidator,
 
-  inputCheckErrorsMiddleware(true),
+  inputCheckErrorsMiddleware(false),
 ];
