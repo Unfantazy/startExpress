@@ -15,8 +15,8 @@ export const inputCheckErrorsMiddleware =
 
       res.status(HttpCodes.BadRequest).json({
         errorsMessages: errors.map((error) => ({
-          field: error.path,
-          message: error.msg,
+            message: error.msg,
+            field: error.path,
         })),
       });
       return;
