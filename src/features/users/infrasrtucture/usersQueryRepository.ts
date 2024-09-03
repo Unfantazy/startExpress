@@ -30,7 +30,6 @@ export const usersQueryRepository = {
       ...searchFilter,
     };
 
-    console.log(filter)
     return await getPaginatedResults(
       userCollection,
       filter,
