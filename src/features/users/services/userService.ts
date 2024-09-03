@@ -10,7 +10,6 @@ export const userService = {
     return await usersRepository.createUser(newUser);
   },
   async deleteUser(id: string) {
-    console.log('deleteUser', id)
     return await usersRepository.deleteUser(id);
   },
 };
