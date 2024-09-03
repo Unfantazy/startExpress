@@ -30,6 +30,7 @@ export const usersQueryRepository = {
       ...searchFilter,
     };
 
+    console.log(filter)
     return await getPaginatedResults(
       userCollection,
       filter,
@@ -56,13 +57,17 @@ export const usersQueryRepository = {
   },
 
   _buildSearchFilter(searchLoginTerm?: string, searchEmailTerm?: string) {
-    return {
-      ...(searchLoginTerm
-        ? { login: { $regex: `.*${searchLoginTerm}.*`, $options: "i" } }
-        : {}),
-      ...(searchEmailTerm
-        ? { email: { $regex: `.*${searchEmailTerm}.*`, $options: "i" } }
-        : {}),
-    };
+    const orConditions = [];
+    if (searchLoginTerm) {
+      orConditions.push({
+        login: { $regex: `.*${searchLoginTerm}.*`, $options: "i" },
+      });
+    }
+    if (searchEmailTerm) {
+      orConditions.push({
+        email: { $regex: `.*${searchEmailTerm}.*`, $options: "i" },
+      });
+    }
+    return orConditions.length > 0 ? { $or: orConditions } : {};
   },
 };
