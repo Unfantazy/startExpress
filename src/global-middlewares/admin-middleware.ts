@@ -17,6 +17,9 @@ export const adminMiddleware = (
   const auth = req.headers["authorization"];
   const codedAuth = fromUTF8ToBase64(SETTINGS.ADMIN);
 
+  console.log(auth)
+  console.log(codedAuth)
+
   if (!auth || !auth.includes("Basic") || auth.slice(6) !== codedAuth) {
     res.status(HttpCodes.Unauthorized).json({});
     return;

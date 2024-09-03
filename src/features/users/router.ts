@@ -10,4 +10,4 @@ export const usersRouter = Router();
 usersRouter
   .get("/", adminMiddleware, getUsersController)
   .post("/", ...createUserValidator, createUserController)
-  .delete("/", adminMiddleware, deleteUserController);
+  .delete("/:id", adminMiddleware, deleteUserController);
