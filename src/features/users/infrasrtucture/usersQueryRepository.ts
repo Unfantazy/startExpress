@@ -58,10 +58,10 @@ export const usersQueryRepository = {
   _buildSearchFilter(searchLoginTerm?: string, searchEmailTerm?: string) {
     return {
       ...(searchLoginTerm
-        ? { login: { $regex: searchLoginTerm, $options: "i" } }
+        ? { login: { $regex: `.*${searchLoginTerm}.*`, $options: "i" } }
         : {}),
       ...(searchEmailTerm
-        ? { email: { $regex: searchEmailTerm, $options: "i" } }
+        ? { email: { $regex: `.*${searchEmailTerm}.*`, $options: "i" } }
         : {}),
     };
   },
