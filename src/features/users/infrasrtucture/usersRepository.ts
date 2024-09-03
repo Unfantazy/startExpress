@@ -8,6 +8,8 @@ export const usersRepository = {
     return insertedId.toString();
   },
   async deleteUser(id: string): Promise<boolean> {
+    if (!this._checkObjectId(id)) return false;
+
     const { deletedCount } = await userCollection.deleteOne({
       _id: new ObjectId(id),
     });
@@ -17,5 +19,8 @@ export const usersRepository = {
     return userCollection.findOne({
       $or: [{ email: loginOrEmail }, { login: loginOrEmail }],
     });
+  },
+  _checkObjectId(id: string): boolean {
+    return ObjectId.isValid(id)
   },
 };
