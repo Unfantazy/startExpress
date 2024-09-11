@@ -5,6 +5,7 @@ import { blogsRouter } from "./features/blogs/router";
 import { postsRouter } from "./features/posts/router";
 import { testingRouter } from "./testing";
 import { usersRouter } from "./features/users/router";
+import { authRouter } from "./features/auth/authController";
 
 export const app = express();
 app.use(express.json());
@@ -19,3 +20,4 @@ app.use(SETTINGS.PATH.BLOGS, blogsRouter);
 app.use(SETTINGS.PATH.POSTS, postsRouter);
 app.use(SETTINGS.PATH.TEST, testingRouter);
 app.use(SETTINGS.PATH.USERS, usersRouter);
+app.use(SETTINGS.PATH.AUTH.LOGIN, authRouter);
