@@ -48,7 +48,7 @@ export const usersQueryRepository = {
   },
 
   _mapToOutput(user: IUserDbModel): IUserViewModel {
-    const { _id, password, ...rest } = user;
+    const { _id, passwordHash, ...rest } = user;
     return {
       id: _id!.toString(),
       ...rest,

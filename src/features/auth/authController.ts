@@ -11,13 +11,13 @@ authRouter.post(
   "/",
   passwordValidation,
   loginOrEmailValidation,
-  inputCheckErrorsMiddleware,
+  inputCheckErrorsMiddleware(true),
   async (req: Request<{}, any, ILoginInputModel, {}>, res: Response<any>) => {
     const { loginOrEmail, password } = req.body;
 
     const accessToken = await authService.loginUser(loginOrEmail, password);
     if (!accessToken) return res.sendStatus(401);
 
-    return res.status(200).send({ accessToken });
+    return res.sendStatus(204);
   },
 );
